@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The McDonough Podcast</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=50 cy=50 r=46 fill=%22%23C81E2C%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-row">
+    <div class="brand"><span class="dot"></span>The McDonough Podcast</div>
+    <nav class="links">
+      <button type="button" data-page="home" class="active">Home</button>
+      <button type="button" data-page="apply" class="apply-cta">Apply to Be a Guest</button>
+    </nav>
+  </div>
+</header>
+
+<main id="page-home">
+  <section class="hero">
+    <div class="wrap">
+      <div class="on-air"><span class="pulse"></span>New episode every Friday </div>
+      <h1>Conversations that don't <em>fade to static.</em></h1>
+      <p class="tagline">The McDonough Podcast is a weekly show digging into the stories, arguments, and people worth paying attention to — unfiltered, unscripted, on the record.</p>
+      <div class="listen-row">
+        <a href="https://www.youtube.com/@joemcdough" target="_blank" rel="noopener">Watch on YouTube</a>
+        <a href="https://www.tiktok.com/@joemcdough1" target="_blank" rel="noopener">Follow on TikTok</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="episode">
+    <div class="wrap">
+      <div class="episode-head">
+        <h2>This week's episode</h2>
+        <span class="ep-num" id="ep-number">Episode</span>
+      </div>
+      <div class="episode-grid">
+        <div class="video-frame" id="video-frame">
+          <!-- filled in by script below based on YOUTUBE_VIDEO_ID -->
+        </div>
+        <div class="episode-info">
+          <h3 id="ep-title">Why nobody tells the truth in a first meeting</h3>
+          <p class="caption" id="ep-caption">
+            We sat down to talk about the small lies people tell to get through a first conversation — in job interviews, first dates, and pitch meetings — and why the most successful people are usually the worst at it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="page-apply" hidden>
+  <section class="apply-page">
+    <div class="wrap">
+      <div class="apply-head">
+        <h2>Come on the show.</h2>
+        <p>Tell us who you are and what you'd bring to the conversation. We read every application and reply to the ones that feel like a fit within two weeks.</p>
+      </div>
+
+      <form class="application" id="application-form">
+        <div class="field">
+          <label for="f-name">What is your name?</label>
+          <input type="text" id="f-name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="f-do">What do you want to do on the McDonough Podcast?</label>
+          <textarea id="f-do" name="what_to_do" required></textarea>
+        </div>
+        <div class="field">
+          <label for="f-bring">Who are you going to bring on the McDonough Podcast?</label>
+          <textarea id="f-bring" name="who_to_bring" required></textarea>
+        </div>
+        <div class="field">
+          <label for="f-where">Where do you want to complete this task?</label>
+          <textarea id="f-where" name="where" required></textarea>
+        </div>
+        <div class="field">
+          <label for="f-why">Why should we choose you?</label>
+          <textarea id="f-why" name="why" required></textarea>
+        </div>
+
+        <button type="submit" id="submit-btn">Send application</button>
+        <div class="form-status" id="form-status" role="status"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 The McDonough Podcast</span>
+    <a href="mailto:mcdonoughjoe45@gmail.com">mcdonoughjoe45@gmail.com</a>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   1) WEEKLY EPISODE
+   Paste the YouTube video ID (the part after "v=" in the URL).
+   Leave it blank to show a placeholder instead of a broken embed.
+   ============================================================ */
+const YOUTUBE_VIDEO_ID = ""; // e.g. "dQw4w9WgXcQ"
+
+const videoFrame = document.getElementById("video-frame");
+if (YOUTUBE_VIDEO_ID) {
+  videoFrame.innerHTML =
+    '<iframe src="https://www.youtube.com/embed/' + YOUTUBE_VIDEO_ID +
+    '" title="This week\'s episode" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+} else {
+  videoFrame.innerHTML =
+    '<div class="video-placeholder">' +
+      '<div class="play"><svg width="20" height="20" viewBox="0 0 20 20" fill="white"><path d="M5 3l12 7-12 7V3z"/></svg></div>' +
+      '<div><strong>Add this week\'s video</strong></div>' +
+      '<small>Set YOUTUBE_VIDEO_ID near the top of the script to embed it here.</small>' +
+    '</div>';
+}
+
+/* ============================================================
+   2) DISCORD WEBHOOK
+   Discord server → Server Settings → Integrations → Webhooks →
+   New Webhook → pick a channel → Copy Webhook URL → paste below.
+   ============================================================ */
+const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1552397403167002624/5eipOufRupmrV-rr6ooDQ3kpqoaMCRG4a9zxocq_kZwdO44vTBTzpR0RD3cUK6bnO-Ic";
+
+const form = document.getElementById("application-form");
+const statusBox = document.getElementById("form-status");
+const submitBtn = document.getElementById("submit-btn");
+
+function showStatus(kind, message) {
+  statusBox.textContent = message;
+  statusBox.className = "form-status show " + kind;
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (!DISCORD_WEBHOOK_URL) {
+    showStatus("err", "This form isn't connected yet — add your Discord webhook URL in the site's code (DISCORD_WEBHOOK_URL) to start receiving applications.");
+    return;
+  }
+
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  const payload = {
+    embeds: [{
+      title: "New guest application",
+      color: 13109804, // matches the site's red
+      fields: [
+        { name: "Name", value: data.name || "—", inline: false },
+        { name: "What do you want to do on the McDonough Podcast?", value: data.what_to_do || "—", inline: false },
+        { name: "Who are you going to bring on the McDonough Podcast?", value: data.who_to_bring || "—", inline: false },
+        { name: "Where do you want to complete this task?", value: data.where || "—", inline: false },
+        { name: "Why should we choose you?", value: data.why || "—", inline: false }
+      ],
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending…";
+  statusBox.className = "form-status";
+
+  try {
+    const res = await fetch(DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok || res.status === 204) {
+      form.reset();
+      showStatus("ok", "Application sent. We'll be in touch if it's a fit.");
+    } else {
+      showStatus("err", "The application didn't go through (Discord returned an error). Try again in a moment.");
+    }
+  } catch (err) {
+    showStatus("err", "The application didn't go through — check your connection and try again.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Send application";
+  }
+});
+
+/* ============================================================
+   3) NAVIGATION between Home and Apply
+   ============================================================ */
+const pages = {
+  home: document.getElementById("page-home"),
+  apply: document.getElementById("page-apply")
+};
+const navButtons = document.querySelectorAll("nav.links button");
+
+function goTo(pageName) {
+  Object.entries(pages).forEach(([name, el]) => {
+    el.hidden = name !== pageName;
+  });
+  navButtons.forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.page === pageName && !btn.classList.contains("apply-cta"));
+  });
+  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  history.replaceState(null, "", "#" + pageName);
+}
+
+navButtons.forEach(btn => {
+  btn.addEventListener("click", () => goTo(btn.dataset.page));
+});
+
+goTo(window.location.hash === "#apply" ? "apply" : "home");
+</script>
+
+</body>
+</html>
